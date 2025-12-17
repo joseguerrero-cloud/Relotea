@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>ReLotea Group – Holding</title>
+
+  <!-- Fuentes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Tema oscuro por defecto */
+      --bg: #0f0f0f;
+      --bg-elevated: #1a1a1a;
+      --text: #f5f5f5;
+      --muted: #b3b3b3;
+      --primary: #105134;
+      --secondary: #1a341a;
+      --border: #303030;
+      --hover: #959595;
+      --button-bg: #1a1a1a;
+    }
+
+    body.light {
+      /* Tema invertido (claro) */
+      --bg: #f5f5f5;
+      --bg-elevated: #ffffff;
+      --text: #111111;
+      --muted: #555555;
+      --border: #dddddd;
+      --button-bg: #e0e0e0;
+      --hover: #959595;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #181818 0, var(--bg) 40%);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Header minimal fijo */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+      pointer-events: none;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1160px;
+      margin: 0 auto;
+      pointer-events: auto;
+    }
+
+    .brand-min {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-min-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .brand-min-logo img {
+      max-width: 26px;
+      max-height: 26px;
+      display: block;
+    }
+
+    .brand-min-text {
+      font-family: "Playfair Display", serif;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      background-color: var(--button-bg);
+      border-radius: 999px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    nav a:hover {
+      background-color: var(--hover);
+      color: #0f0f0f;
+      border-color: var(--hover);
+    }
+
+    /* Toggle tema sol/luna estilo iOS */
+    .theme-toggle {
+      position: relative;
+      width: 56px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--button-bg);
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease;
+      overflow: hidden;
+    }
+
+    .toggle-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      top: 2px;
+      left: 2px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+      transition: transform 0.25s ease, background 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .icon-sun,
+    .icon-moon {
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+
+    body.light .toggle-thumb {
+      transform: translateX(26px) rotate(180deg);
+      background: #0f0f0f;
+      color: #f5f5f5;
+    }
+
+    body.light .icon-sun {
+      opacity: 0.2;
+      transform: rotate(-40deg);
+    }
+
+    body.light .icon-moon {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    .icon-moon {
+      opacity: 0.2;
+      transform: rotate(40deg);
+    }
+
+    /* HERO estilo reloj de lujo */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      max-width: 1160px;
+      width: 100%;
+      padding: 60px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-logo-mark {
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      backdrop-filter: blur(4px);
+      background: linear-gradient(145deg, rgba(26,26,26,0.9), rgba(10,10,10,0.5));
+    }
+
+    .hero-logo-mark img {
+      max-width: 72px;
+      max-height: 72px;
+      display: block;
+    }
+
+    .hero-title {
+      font-family: "Playfair Display", serif;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .hero-name {
+      font-family: "Playfair Display", serif;
+      font-size: 40px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin: 0 0 12px;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 26px;
+    }
+
+    .hero-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--border);
+      margin: 0 auto 22px;
+    }
+
+    .hero-description {
+      max-width: 640px;
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-scroll span {
+      width: 1px;
+      height: 32px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-scroll span::after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: 16px;
+      background: var(--primary);
+      top: -16px;
+      left: 0;
+      animation: scrollLine 1.4s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+      0% { top: -16px; opacity: 0; }
+      20% { opacity: 1; }
+      80% { top: 32px; opacity: 1; }
+      100% { top: 32px; opacity: 0; }
+    }
+
+    /* Secciones */
+    section {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 80px 20px 80px;
+    }
+
+    section h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin: 0 0 10px;
+    }
+
+    section p.section-intro {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 640px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-elevated);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 18px 18px 14px;
+      font-size: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(16,81,52,0.25), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+      border-color: var(--primary);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: #f5f5f5;
+      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .list-compact {
+      padding-left: 16px;
+      margin: 8px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .manifesto-block {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 30px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .manifesto-tagline {
+      font-size: 18px;
+      font-family: "Playfair Display", serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .manifesto-text {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .manifesto-panel {
+      background: var(--bg-elevated);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .manifesto-panel div strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .link-row {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .link-pill {
+      text-decoration: none;
+      color: var(--text);
+      background: var(--button-bg);
+      border-radius: 999px;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .link-pill:hover {
+      background: var(--hover);
+      color: #0f0f0f;
+      border-color: var(--hover);
+    }
+
+    footer {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 30px 20px 40px;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        padding-top: 80px;
+      }
+      .manifesto-block {
+        grid-template-columns: 1fr;
+      }
+      header {
+        padding: 10px 20px;
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      nav {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body class="dark">
+  <header>
+    <div class="header-inner">
+      <div class="brand-min">
+        <div class="brand-min-logo">
+          <img src="logo_relotea_group.png" alt="ReLotea Group">
+        </div>
+        <div class="brand-min-text">RELOTEA GROUP</div>
+      </div>
+      <nav>
+        <a href="#grupo">Grupo</a>
+        <a href="#unidades">Unidades</a>
+        <a href="#vision">Visión</a>
+        <a href="tienda.html">Tienda</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Cambiar tema">
+          <div class="toggle-thumb">
+            <span class="icon-sun">☀</span>
+            <span class="icon-moon">🌙</span>
+          </div>
+          <div class="toggle-track">
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO principal -->
+    <section class="hero" id="grupo">
+      <div class="hero-inner">
+        <div class="hero-logo-mark">
+          <img src="logo_relotea_group.png" alt="ReLotea Group">
+        </div>
+        <div class="hero-title">HOLDING</div>
+        <div class="hero-name">RELOTEA GROUP</div>
+        <div class="hero-subtitle">SMART LIQUIDATION • RETAIL • DIGITAL SERVICES</div>
+        <div class="hero-divider"></div>
+        <p class="hero-description">
+          ReLotea Group es un grupo empresarial con sede en Tenerife, especializado en la gestión de lotes
+          de liquidación, la venta retail y los servicios digitales asociados al comercio moderno. Unimos
+          eficiencia operativa, diseño de experiencia y sostenibilidad para convertir el excedente en valor.
+        </p>
+        <div class="hero-scroll">
+          <span></span>
+          SCROLL
+        </div>
+      </div>
+    </section>
+
+    <!-- Unidades de negocio -->
+    <section id="unidades">
+      <h2>Unidades de negocio</h2>
+      <p class="section-intro">
+        Cuatro líneas de actividad conectadas entre sí permiten a ReLotea Group controlar toda la cadena:
+        desde la compra de lotes hasta la venta final y la comunicación digital.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="badge">Retail</div>
+          <h3>ReLotea Liquidaciones</h3>
+          <p>
+            Punto de contacto directo con el cliente. Tienda física y canales online donde los lotes de
+            devoluciones y excedentes se convierten en chollos reales, siempre con información clara sobre
+            el estado de cada producto.
+          </p>
+          <ul class="list-compact">
+            <li>Compra de palés y lotes mixtos.</li>
+            <li>Clasificación por categoría y estado.</li>
+            <li>Venta en formato outlet y cajas sorpresa.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="badge">Digital</div>
+          <h3>ReLotea Digital Services</h3>
+          <p>
+            Agencia digital interna del grupo. Diseña la presencia de ReLotea en la red y ofrece
+            servicios a terceros que necesitan vender online con una imagen y una estrategia coherentes.
+          </p>
+          <ul class="list-compact">
+            <li>Gestión de redes sociales y campañas.</li>
+            <li>Diseño y mantenimiento de la tienda online.</li>
+            <li>Producción de contenido (foto, vídeo, directo).</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="badge">Logística</div>
+          <h3>ReLotea Fulfillment</h3>
+          <p>
+            Soluciones logísticas para el propio grupo y para pequeños e-commerce que quieren externalizar
+            la preparación de pedidos, el almacenaje y la gestión de devoluciones.
+          </p>
+          <ul class="list-compact">
+            <li>Almacenaje y control de stock.</li>
+            <li>Preparación y envío de pedidos.</li>
+            <li>Gestión de devoluciones y reacondicionado.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="badge">Marcas</div>
+          <h3>ReLotea Brands</h3>
+          <p>
+            Desarrollo de líneas de producto propias en categorías clave: hogar, textil básico, accesorios
+            tecnológicos y ocio. Inspiradas en lo que mejor funciona en las liquidaciones.
+          </p>
+          <ul class="list-compact">
+            <li>Diseño de colecciones esenciales.</li>
+            <li>Selección de proveedores y calidad.</li>
+            <li>Venta a través del ecosistema ReLotea.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="link-row">
+        <a href="tienda.html" class="link-pill">Ir a la tienda ReLotea</a>
+        <a href="#vision" class="link-pill">Visión y enfoque del grupo</a>
+      </div>
+    </section>
+
+    <!-- Visión / Manifiesto -->
+    <section id="vision">
+      <h2>Visión</h2>
+      <p class="section-intro">
+        ReLotea Group nace para profesionalizar el mundo de las liquidaciones. Nuestro objetivo es
+        transformar el excedente en una experiencia de compra cuidada, transparente y alineada con
+        la economía circular.
+      </p>
+
+      <div class="manifesto-block">
+        <div>
+          <div class="manifesto-tagline">Donde otros ven stock, nosotros vemos futuro.</div>
+          <p class="manifesto-text">
+            Cada lote cuenta una historia: productos que han quedado fuera de los canales
+            tradicionales, pero que siguen teniendo valor. En lugar de esconder esa realidad,
+            ReLotea la coloca en el centro de su propuesta. Mostramos el origen, el estado y
+            el precio de forma honesta, y dejamos que el cliente viva la experiencia del hallazgo.
+          </p>
+        </div>
+        <div class="manifesto-panel">
+          <div>
+            <strong>Ahorro y transparencia</strong>
+            Precios ajustados, comparativas con el precio original y descripciones claras del estado
+            de cada artículo.
+          </div>
+          <div>
+            <strong>Sostenibilidad real</strong>
+            Menos residuos, más vida útil para los productos. Una forma sencilla de practicar
+            economía circular en el día a día.
+          </div>
+          <div>
+            <strong>Experiencia omnicanal</strong>
+            Físico y digital se complementan: tienda, redes sociales, tienda online y cajas sorpresa.
+          </div>
+          <div>
+            <strong>Modelo escalable</strong>
+            Una estructura de grupo que permite crecer en nuevas ciudades y mercados sin perder el
+            control de la calidad.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    RELOTEA GROUP · LIQUIDATION · RETAIL · DIGITAL
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Por defecto: oscuro
+    body.classList.remove('light');
+
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('light');
+    });
+  </script>
+</body>
+</html>
