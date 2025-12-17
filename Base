@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>ReLotea – Tienda</title>
+
+  <!-- Fuentes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --bg-elevated: #1a1a1a;
+      --text: #f5f5f5;
+      --muted: #b3b3b3;
+      --primary: #105134;
+      --secondary: #1a341a;
+      --border: #303030;
+      --hover: #959595;
+      --button-bg: #1a1a1a;
+    }
+
+    body.light {
+      --bg: #f5f5f5;
+      --bg-elevated: #ffffff;
+      --text: #111111;
+      --muted: #555555;
+      --border: #dddddd;
+      --button-bg: #e0e0e0;
+      --hover: #959595;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Header tienda */
+    header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 10px 24px;
+      background: rgba(0,0,0,0.9);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-shop {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-shop-logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .brand-shop-logo img {
+      max-width: 22px;
+      max-height: 22px;
+      display: block;
+    }
+
+    .brand-shop-text {
+      font-family: "Playfair Display", serif;
+      font-size: 16px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .brand-shop-sub {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-shop {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .nav-shop a,
+    .btn-toggle {
+      text-decoration: none;
+      color: var(--text);
+      background-color: var(--button-bg);
+      border-radius: 999px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+      cursor: pointer;
+    }
+
+    .nav-shop a:hover,
+    .btn-toggle:hover {
+      background-color: var(--hover);
+      color: #0f0f0f;
+      border-color: var(--hover);
+    }
+
+    /* Toggle tema sol/luna */
+    .theme-toggle {
+      position: relative;
+      width: 56px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--button-bg);
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease;
+      overflow: hidden;
+    }
+
+    .toggle-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      top: 2px;
+      left: 2px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+      transition: transform 0.25s ease, background 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .icon-sun,
+    .icon-moon {
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+
+    body.light .toggle-thumb {
+      transform: translateX(26px) rotate(180deg);
+      background: #0f0f0f;
+      color: #f5f5f5;
+    }
+
+    body.light .icon-sun {
+      opacity: 0.2;
+      transform: rotate(-40deg);
+    }
+
+    body.light .icon-moon {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    .icon-moon {
+      opacity: 0.2;
+      transform: rotate(40deg);
+    }
+
+    /* Hero tienda compacto */
+    .hero-shop {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 40px 20px 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .hero-shop-left h1 {
+      margin: 0 0 4px;
+      font-family: "Playfair Display", serif;
+      font-size: 26px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-shop-left p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .hero-shop-badge {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .hero-shop-right {
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 320px;
+    }
+
+    /* Grid productos */
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 10px 20px 40px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    .product-card {
+      background: var(--bg-elevated);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 12px;
+      font-size: 13px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+      border-color: var(--primary);
+    }
+
+    .product-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .product-card h3 {
+      font-size: 15px;
+      margin: 0 0 4px;
+    }
+
+    .product-desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 4px 0 8px;
+      min-height: 32px;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 4px 0 8px;
+    }
+
+    .price-before {
+      text-decoration: line-through;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .price-now {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .btn-buy {
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      background: transparent;
+      color: var(--text);
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-buy:hover {
+      background: var(--primary);
+      color: #f5f5f5;
+      border-color: var(--primary);
+    }
+
+    .box-label {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px dashed var(--secondary);
+      color: var(--secondary);
+    }
+
+    footer {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 20px;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .nav-shop {
+        flex-wrap: wrap;
+      }
+      .hero-shop {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-shop-right {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body class="dark">
+  <header>
+    <div class="brand-shop">
+      <div class="brand-shop-logo">
+        <img src="logo_relotea_group.png" alt="ReLotea">
+      </div>
+      <div>
+        <div class="brand-shop-text">RELOTEA</div>
+        <div class="brand-shop-sub">LIQUIDACIONES &amp; OUTLET</div>
+      </div>
+    </div>
+    <div class="nav-shop">
+      <a href="index.html">ReLotea Group</a>
+      <a href="#productos">Productos</a>
+      <button id="themeToggle" class="theme-toggle" aria-label="Cambiar tema">
+        <div class="toggle-thumb">
+          <span class="icon-sun">☀</span>
+          <span class="icon-moon">🌙</span>
+        </div>
+        <div class="toggle-track">
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero-shop">
+    <div class="hero-shop-left">
+      <div class="hero-shop-badge">Selección outlet</div>
+      <h1>ReLotea Tienda</h1>
+      <p>
+        Productos procedentes de lotes de liquidación, devoluciones y excedentes. Siempre revisados
+        y con descuentos reales sobre el precio original.
+      </p>
+    </div>
+    <div class="hero-shop-right">
+      En esta selección de ejemplo se muestran categorías típicas de ReLotea: pequeños
+      electrodomésticos, tecnología, hogar y cajas sorpresa. Es el tipo de catálogo que puede verse
+      en una feria de empresas o en una presentación a clientes.
+    </div>
+  </section>
+
+  <main id="productos">
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-tag">Hogar • Liquidación</div>
+        <h3>Hervidor eléctrico compacto</h3>
+        <p class="product-desc">Devolución de gran superficie, revisado y en perfecto estado.</p>
+        <div class="price-row">
+          <span class="price-before">Antes: 49,99 €</span>
+          <span class="price-now">19,99 €</span>
+        </div>
+        <button class="btn-buy">Ver en tienda</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-tag">Tecnología • Lote mixto</div>
+        <h3>Altavoz Bluetooth portátil</h3>
+        <p class="product-desc">Procedente de lote mixto de electrónica. Ideal para mostrar chollos tech.</p>
+        <div class="price-row">
+          <span class="price-before">Antes: 39,99 €</span>
+          <span class="price-now">16,90 €</span>
+        </div>
+        <button class="btn-buy">Ver en tienda</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-tag">Hogar • Pack</div>
+        <h3>Pack hogar “básicos”</h3>
+        <p class="product-desc">Textiles y pequeños accesorios de decoración en un lote conjunto.</p>
+        <div class="price-row">
+          <span class="price-before">Valor aprox.: 45 €</span>
+          <span class="price-now">22,00 €</span>
+        </div>
+        <span class="box-label">Ejemplo de lote preparado</span>
+      </div>
+
+      <div class="product-card">
+        <div class="product-tag">Caja sorpresa</div>
+        <h3>Caja sorpresa hogar</h3>
+        <p class="product-desc">Mezcla de productos de cocina, organización y decoración.</p>
+        <div class="price-row">
+          <span class="price-before">Valor aprox.: 35–40 €</span>
+          <span class="price-now">15,00 €</span>
+        </div>
+        <span class="box-label">Producto estrella en ferias</span>
+      </div>
+
+      <div class="product-card">
+        <div class="product-tag">Caja sorpresa</div>
+        <h3>Caja sorpresa tech</h3>
+        <p class="product-desc">Accesorios tecnológicos seleccionados de diferentes lotes.</p>
+        <div class="price-row">
+          <span class="price-before">Valor aprox.: 50 €</span>
+          <span class="price-now">24,90 €</span>
+        </div>
+        <span class="box-label">Valor total &gt; precio pagado</span>
+      </div>
+
+      <div class="product-card">
+        <div class="product-tag">Ocio • Excedente</div>
+        <h3>Juego de mesa familiar</h3>
+        <p class="product-desc">Excedente de campaña, caja en buen estado y contenido completo.</p>
+        <div class="price-row">
+          <span class="price-before">Antes: 29,95 €</span>
+          <span class="price-now">11,95 €</span>
+        </div>
+        <button class="btn-buy">Ver en tienda</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    RELOTEA · LIQUIDACIONES &amp; OUTLET
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Por defecto oscuro
+    body.classList.remove('light');
+
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('light');
+    });
+  </script>
+</body>
+</html>
